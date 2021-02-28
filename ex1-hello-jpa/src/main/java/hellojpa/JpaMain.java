@@ -26,22 +26,22 @@ public class JpaMain {
 //            // 멤버 찾기
 //            //Member findMember = em.find(Member.class,1L);
 //            //System.out.println("findMember = "+findMember.getId());
-            List<Member> result = em.createQuery("select m from Member as m", Member.class) // 멤버 객체를 대상으로 쿼리를 짠다
-                    .setFirstResult(5) // 5번부터
-                    .setMaxResults(8) // 8개 가져와
-                    .getResultList();
-
-            for (Member member : result){
-                System.out.println("member.name = "+member.getName());
-            }
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class) // 멤버 객체를 대상으로 쿼리를 짠다
+//                    .setFirstResult(5) // 5번부터
+//                    .setMaxResults(8) // 8개 가져와
+//                    .getResultList();
+//
+//            for (Member member : result){
+//                System.out.println("member.name = "+member.getName());
+//            }
 //
 //            // 멤버 삭제
 //            Member findMember = em.find(Member.class,1L);
 //            em.remove(findMember);
 
             // 멤버 수정
-              Member findMember = em.find(Member.class,2L);
-              findMember.setName("HelloJPB"); // em에서 찾아온 객체는 JPA가 관리하여 변경사항있으면 커밋직전에 update 쿼리가 날라감
+              //Member findMember = em.find(Member.class,2L);
+              //findMember.setName("HelloJPB"); // em에서 찾아온 객체는 JPA가 관리하여 변경사항있으면 커밋직전에 update 쿼리가 날라감
 
               //em.persist(findMember); // 수정하고 저장? -> 안해도됨. 자바 컬렉션에서 setName 와 같이 수정한 것이므로 수정하면 끝이지 다시 컬렉션에 넣을 필요없다
             tx.commit(); // 잘되면  커밋
