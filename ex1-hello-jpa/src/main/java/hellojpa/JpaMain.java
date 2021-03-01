@@ -31,6 +31,11 @@ public class JpaMain {
 
             Member findMember = em.find(Member.class, member.getId()); // em.flush(), em.clear() 없으면, 캐시에서 가져옴. em.persist를 통해 1차 캐시에 넣어져있으므로
 
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for (Member m : members){
+                System.out.println("m="+m.getName());
+            }
             //Long findTeamId = findMember.getTemaId();
             //Team findTeam = em.find(Team.class,findTeamId); // 객체 지향 스럽지 않다. 찾은멤버의 팀을 찾기위해 teamId를 구하고 team을 알아낸다...
             Team findTeam = findMember.getTeam(); // 객체지향스럽게 리모델링. Team을 바로 꺼냄
