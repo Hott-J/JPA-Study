@@ -10,14 +10,19 @@ import java.util.Date;
 public class Member {
 
     @Id // pk
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name="MEMBER_ID")
     private Long id;
 
-    @Column(name = "name",nullable = false) // DB의 컬럼명은 name
-    private String username; // 객체는 username
+    @Column(name = "USERNAME")
+    private String name;
 
-    public Member() {
-    }
+//    @Column(name="TEAM_ID")
+//    private Long temaId;
+
+    @ManyToOne // 다대일. 멤버입장 다, 팀입장 일
+    @JoinColumn(name="TEAM_ID") // TEAM의 FK인 TEAM_ID와 매핑
+    private Team team; // 객체 지향스럽게 짠다.
 
     public Long getId() {
         return id;
@@ -27,11 +32,22 @@ public class Member {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Member() {
     }
 }
