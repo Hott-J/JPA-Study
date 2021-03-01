@@ -17,12 +17,13 @@ public class Member {
     @Column(name = "USERNAME")
     private String name;
 
-//    @Column(name="TEAM_ID")
-//    private Long temaId;
-
     @ManyToOne // 다대일. 멤버입장 다, 팀입장 일
     @JoinColumn(name="TEAM_ID") // TEAM의 FK인 TEAM_ID와 매핑
     private Team team; // 객체 지향스럽게 짠다.
+
+    @OneToOne
+    @JoinColumn(name="LOCKER_ID")
+    private Locker locker;
 
     public Long getId() {
         return id;
