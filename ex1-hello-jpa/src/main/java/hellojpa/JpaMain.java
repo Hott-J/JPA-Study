@@ -18,31 +18,29 @@ public class JpaMain {
         try {
             Team team = new Team();
             team.setName("TeamA");
+            //team.getMembers().add(member); // 팀은 mapped by로 매핑이므로 읽기 전용. 이는 member의 teamId를 add해주지않는다.
             em.persist(team); // 영속성 컨텍스트가 되면 무조건 id는 알게 됨
 
             Member member = new Member();
             member.setName("member1");
-           // member.setTemaId(team.getId()); // 객체 지향 스럽진 않다. setTeam 이여야 되지 않을까?
-            member.setTeam(team); // 객체지향스럽게 리모델링. Team을 멤버에 넣는다.
+            member.changeTeam(team); // 연관관계의 주인에 값을 set 해줘야한다.
+
+//            team.getMembers().add(member); // 양쪽에 값을 넣어준다.
+
             em.persist(member);
+            
+ //           team.addMember(member); // Team에서 addMember 할지 Member에서 changeTeam 할지 결정. 둘 중 하나만 사용해야지 둘다 쓰면 안됨
 
-            em.flush(); // 영속성 컨텍스트에 있는걸 DB에 날림
-            em.clear(); // 영속성 컨텍스트 초기화
+//            em.flush(); // 영속성 컨텍스트에 있는걸 DB에 날림
+//            em.clear(); // 영속성 컨텍스트 초기화
 
-            Member findMember = em.find(Member.class, member.getId()); // em.flush(), em.clear() 없으면, 캐시에서 가져옴. em.persist를 통해 1차 캐시에 넣어져있으므로
+            Team findTeam = em.find(Team.class, team.getId()); // flush 없으면 1차 캐시.
+            List<Member>members=findTeam.getMembers(); // Member 테이블을 참조하여 쿼리 날라감. 1차 캐시에 있으면 쿼리 날라가지 않음
 
-            List<Member> members = findMember.getTeam().getMembers();
-
-            for (Member m : members){
+            for(Member m : members){
                 System.out.println("m="+m.getName());
             }
-            //Long findTeamId = findMember.getTemaId();
-            //Team findTeam = em.find(Team.class,findTeamId); // 객체 지향 스럽지 않다. 찾은멤버의 팀을 찾기위해 teamId를 구하고 team을 알아낸다...
-            Team findTeam = findMember.getTeam(); // 객체지향스럽게 리모델링. Team을 바로 꺼냄
-            System.out.println("findMember = "+findTeam.getName());
 
-//            Team newTeam = em.find(Team.class,100L); // 100번 팀 찾음
-//            findMember.setTeam(newTeam); // 멤버를 100번 팀으로 팀 변경
 
             tx.commit(); // 잘되면  커밋
         } catch(Exception e){

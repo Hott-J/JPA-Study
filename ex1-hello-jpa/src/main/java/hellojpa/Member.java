@@ -48,6 +48,11 @@ public class Member {
         this.team = team;
     }
 
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this); // 양쪽 매핑위함
+    }
+
     public Member() {
     }
 }
